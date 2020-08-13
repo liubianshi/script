@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+yay -S wine wine-gecko wine-mono winetricks
+sudo pacman -S lib32-gnutls 
+WINEARCH=win32 WINPREFIX="$HOME/win32" winetricks msxml3 msxml6 dotnet20 corefonts riched20 windowscodecs mspatcha gdiplus riched30

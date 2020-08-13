@@ -1,0 +1,97 @@
+#!/usr/bin/env bash
+set -x
+set -e
+
+origin_pwd="$(pwd)"
+
+# internet
+yay -S shadowsocks-qt5 privoxy proxychains-ng 
+
+sudo pacman -S joplin
+#cd /usr/share/joplin-cli/node_modules
+#yarn global add neovim
+joplin config local "en_US"
+joplin config sync.target 2
+joplin config sync.2.path $HOME/Documents/joplin
+
+sudo npm install --global trash-cli
+sudo npm install --global tldr
+
+sudo pip3 install buku
+
+sudo pacman -S aria2
+ln -s $HOME/Repositories/dotfiles/config/aria2 $HOME/.config/
+
+sudo pacman -S tmux
+ln -s $HOME/Repositories/.tmux $HOME/.tmux
+ln -s $HOME/Repositories/dotfiles/.tmux.conf.local $HOME/.tmux.conf.local
+ln -s $HOME/.tmux/.tmux.conf $HOME/.tmux.conf
+
+# 邮件系统 mutt
+yay -S neomutt isync mstmp abook pass pam-gpupg
+cd $HOME/Repositories/
+git clone https://github.com/LukeSmithxyz/mutt-wizard
+cd mutt-wizrd
+sudo make install
+ln -s $HOME/Repositories/dotfiles/.mbsync      $HOME
+ln -s $HOME/Repositories/dotfiles/.mbsyncrc    $HOME
+ln -s $HOME/Repositories/dotfiles/config/msmtp $HOME/.config
+ln -s $HOME/Repositories/dotfiles/config/mutt  $HOME/.config
+mkdir -p $HOME/.local/share/mail/{weiluonk,luow,liubianshi}
+touch $HOME/.local/share/mail/weiluonk/{weiluonk,=========}
+touch $HOME/.local/share/mail/liubianshi/{liubianshi,=========}
+touch $HOME/.local/share/mail/liubianshi/{luow,=========}
+
+echo "配置好 pass"
+# 配置 pam-gnupg
+sudo sed -i_bck '$a\
+# pam_gnupg\
+auth     optional  pam_gnupg.so\
+session  optional  pam_gnupg.so' /etc/pam.d/lightdm
+sudo sed -i_bck '$a\
+# pam_gnupg\
+auth     optional  pam_gnupg.so\
+session  optional  pam_gnupg.so' /etc/pam.d/system-local-login
+touch $HOME/.gnupg/gpg-agent.conf
+sed -i '$a\
+allow-preset-passphrase\
+max-cache-ttl 86400' $HOME/.gnupg/gpg-agent.conf
+echo "配置将 Keygrips 写入 ~/.pam-gnupg, 可通过 gpg -K --with-keygrip 查看（注意标志ssb E）"
+
+# 同步邮件
+mbsync luow
+proxychains -q mbsync weiluonk liubianshi
+
+
+sudo pacman -S sxiv sdcv
+ln -s $HOME/Repositories/dotfiles/config/sxiv $HOME/.config
+
+
+sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl
+sudo chmod a+rx /usr/local/bin/youtube-dl
+# sudo -H pip install --upgrade youtube-dl
+ln -s $HOME/Repositories/dotfiles/config/youtube-dl $HOME/.config
+yay -S you-get
+
+sudo pacman -S mpd ncmpcpp
+ln -s $HOME/Repositories/dotfiles/config/mpd $HOME/.config
+ln -s $HOME/Repositories/dotfiles/config/ncmpcpp $HOME/.config
+
+yay -S darktable
+ln -s $HOME/Repositories/dotfiles/config/darktable $HOME/.config
+
+yay -S typora
+rm -rf ~/.config/Typora/themes
+ln -sf $HOME/Repositories/dotfiles/config/Typora/themes $HOME/.config/themes
+ln -sf $HOME/Repositories/dotfiles/config/Typora/conf/conf.user.json $HOME/.config/Typora/conf
+
+yay -S pandoc
+ln -s $HOME/useScript/pandoc $HOME/.config
+
+sudo pacman -S translate-shell
+ln -s $HOME/Repositories/dotfiles/config/translate-shell $HOME/.config
+
+# zotero
+sudo pacman -S zotero
+
+

@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+set -x
+set -e
+
+ori_pwd="$(pwd)"
+cd $HOME/Repositories
+
+# dwm 
+[ -d ./dwm ] || git clone git@github.com:liubianshi/dwm.git .
+cd dwm
+sudo make clean install && make clean
+
+# 配置 lightdm
+sudo cp dwm.desktop /usr/share/xsessions/dwm.desktop
+grep -E '^\s*dwm)' $HOME/.xinitrc || {
+    /usr/bin/cp $HOME/.xinitrc $HOME/.xinitrc_bck
+    sed -E '/^\s*xfce\)\s*dbus_args/a\\t\t\dwm) dbus_args+(dwm) ;;' $HOME/.xinitrc_bck > $HOME/.xinitrc
+}
+
+# 安装 dmenu
+cd $HOME/Repositories
+[ -d ./dmenu ] || git clone git@github.com:liubianshi/dmenu.git .
+cd dmenu
+sudo make clean install && make clean
+
+# 安装 surf
+cd $HOME/Repositories
+[ -d ./dmenu ] || git clone git@github.com:liubianshi/surf.git .
+cd dmenu
+sudo make clean install && make clean
+ln -sf $HOME/Repositories/dotfiles/config/surf $HOME/.config
+
+# 安装 st
+cd $HOME/Repositories
+[ -d ./st ] || git clone git@github.com:liubianshi/st.git .
+cd st 
+sudo make clean install && make clean
+
+# 安装 sxhkd
+where sxhkd >/dev/null 2>&1 || sudo pacman -S sxhkd
+ln -s $HOME/Repositories/dotfiles/config/sxhkd $HOME/.config/
+
+# autostart
+ln -s $HOME/Repositories/dotfiles/config/dwm $HOME/.config/
+
+# dunst
+sudo pacman -R xfce4-notifyd
+sudo pacman -S dunst
+ln -s $HOME/Repositories/.config/dunst  $HOME/.config
+cat << EOF
+如果出现错误 systemd[###]: Failed to start Dunst notification daemon.
+$ systemctl --user disable dunst
+This removes the link /etc/systemd/user/default.target.wants/dunst.servic
+$ systemctl --user --full edit dunst
+Under [Service] I added:
+Environment=DISPLAY=:0
+Environment=XAUTHORITY=/var/run/lightdm/user_name/xauthority
+然后，开启服务
+$ systemctl --user enable dunst
+EOF
+
+
+# statusbar
+ln -s $HOME/Repositories/script/statusbar/volume      $HOME/.local/bin/
+ln -s $HOME/Repositories/script/statusbar/pacpackages $HOME/.local/bin/
+ln -s $HOME/Repositories/script/statusbar/popupgrade  $HOME/.local/bin/
+ln -s $HOME/Repositories/script/statusbar/memory      $HOME/.local/bin/
+ln -s $HOME/Repositories/script/statusbar/cpu         $HOME/.local/bin/
+ln -s $HOME/Repositories/script/statusbar/weather     $HOME/.local/bin/
+ln -s $HOME/Repositories/script/statusbar/mailbox     $HOME/.local/bin/
+ln -s $HOME/Repositories/script/statusbar/clock       $HOME/.local/bin/
+ln -s $HOME/Repositories/script/statusbar/help-icon   $HOME/.local/bin/
+cd $HOME/Repositories
+[ -d ./dwmblocks ] || git clone git@github.com:liubianshi/dwmblocks.git .
+cd dwmblocks
+sudo make clean install && make clean

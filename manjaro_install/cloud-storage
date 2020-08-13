@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# 云存储配置
+## syncthing
+sudo pacman -S syncthing
+## Nutstore
+wget https://www.jianguoyun.com/static/exe/installer/nutstore_linux_dist_x64.tar.gz -O /tmp/nutstore_bin.tar.gz
+mkdir -p ~/.nutstore/dist && tar zxf /tmp/nutstore_bin.tar.gz -C ~/.nutstore/dist
+~/.nutstore/dist/bin/install_core.sh
+sh -c "nohup ~/.nutstore/dist/bin/nutstore-pydaemon.py >/dev/null 2>&1 &"
+
+ln -sf $HOME/Share/.zsh_history $HOME

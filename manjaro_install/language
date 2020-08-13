@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+# ruby
+pacman -S ruby
+gem install neovim
+
+# node.js
+pacman -S nodejs-lts-erbium
+pacman -S npm
+pacman -S yarn
+npm install -g neovim
+
+# raku
+yay -S rakudo
+yay -S zef
+zef install Readline
+
+# R
+pacman -S R
+ln -s $HOME/programming-lib/R               $HOME
+ln -s $HOME/Repositories/dotfiles/.Rprofile $HOME
+ln -s $HOME/Repositories/dotfiles/.Renviron $HOME
+

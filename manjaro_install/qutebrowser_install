@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+pacman -S qutebrowser
+
+ln -sf $HOME/Repositories/dotfiles/config/qutebrowser $HOME/.config/
+
+ln -s  $HOME/useScript/h2p.sh                  $HOME/.local/share/qutebrowser/userscripts/h2p
+ln -s  $HOME/useScript/bin/instapaper          $HOME/.local/share/qutebrowser/userscripts
+ln -s  $HOME/useScript/bin/instaqute           $HOME/.local/share/qutebrowser/userscripts
+ln -s  $HOME/useScript/qutebrowser/qute-zotero $HOME/.local/share/qutebrowser/userscripts
+ln -s  $HOME/useScript/qutebrowser/readability $HOME/.local/share/qutebrowser/userscripts
+ln -s  $HOME/useScript/qutebrowser/readability.html \
+    $HOME/.local/share/qutebrowser/userscripts

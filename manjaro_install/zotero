@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -e
+set -x
+
+# 安装并配置 zotero
+
+yay -S zotero
+ln -sf $NUTSTORE/Sync/.lib/.zotero $HOME
+ln -sf $NUTSTORE/Sync/.lib/Zotero  $HOME

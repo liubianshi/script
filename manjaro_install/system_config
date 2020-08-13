@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+
+# 更换源
+sudo pacman -Syy
+sudo pacman-mirrors -i -c China -m rank
+sudo pacman -Syyu
+
+# 增加 archlinuxcn 源
+sudo sed -i_bck '$a\[archlinuxcn]\
+SigLevel = Optional TrustedOnly\
+Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/\$arch' /etc/pacman.conf
+
+sudo pacman -Syy && sudo pacman -S archlinuxcn-keyring
+sudo pacman -S yay
+
+# 安装中文输入法
+sudo pacman -S fcitx-im fcitx-rime
+
+# 安装 zsh 和 antigen
+sudo pacman -S zsh
+chsh -s /usr/bin/zsh
+echo "please restart terminal or computer"
+cd $HOME
+curl -L git.io/antigen > antigen.zsh
+
+# 配置 git 和 ssh
+git config --global user.name "liubianshi"
+git config --global user.email "liu.bian.shi@gmail.com"
+ssh-keygen
+echo "need copy id_rsa.pub to github!"
+
+# 配置环境
+cd $HOME
+git clone git@github.com:liubianshi/useScript.git
+mkdir Repositories && cd Repositories
+git clone git@github.com:liubianshi/dotfiles.git
+ln -sf $HOME/Repositories/dotfiles/.profile $HOME
+ln -sf $HOME/Repositories/dotfiles/.zshrc   $HOME
+ln -sf $HOME/Repositories/dotfiles/.xprofile $HOME
+ln -sf $HOME/Repositories/dotfiles/.Xresources $HOME
+ln -sf $HOME/Repositories/dotfiles/.Xmodmap $HOME
+source ~/.zshrc ~/.xprofile ~/.Xresources
+xmodmap $HOME/.Xmodmap
+echo "如果希望在sudo 是保持编辑器的一致性，可以在 /etc/sudoers 中修改 keep_env，保留 HOME 和 EDITOR"
+
+# 系统需要
+yay -S adapta-maia-theme # xfce 主题
+yay -S libxft-bgra-git # status bar 需要
+
+echo "配置云同步，坚果云和syncthing"
+
+# tag 和 gtag 配置
+# 参考 [Vim 8 中 C/C++ 符号索引：GTags 篇 - 知乎](https://zhuanlan.zhihu.com/p/36279445)
+sudo pacman -S universal-ctags global 
+sudo -H pip install pygments
+
+# 效率工具配置
+sudo pacman -S fzf fasd lf dunst ripgrep fd xsel xclip fd bat rlwrap xsv sxiv feh 
+yay -S the_silver_search yank fast-p
+yay -S taskbook # 任务管理
+ln -s  $HOME/Repositories/dotfiles/.fzf $HOME/.fzf
+ln -s  $HOME/Repositories/dotfiles/.fzf.zsh $HOME/.fzf.zsh
+ln -s  $HOME/Repositories/dotfiles/config/dunst $HOME/.config
+ln -s  $HOME/Repositories/dotfiles/config/lf $HOME/.config
+ln -sf $NUTSTORE/Sync $HOME/.config/diySync
+taskbook >/dev/null 2>&1 && \
+    sed -Ei '/taskbookDirectory/s!~!~/.config/diySync!' ~/.taskbook.json
+
+# font
+

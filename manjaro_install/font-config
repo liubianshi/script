@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -x
+set -e
+
+yay -S ttf-fira-code ttf-merriweather ttf-ms-font nerd-fonts-fira-code \
+    nerd-fonts-dejavu-sans-mono adobe-source-code-pro-fonts \
+    adobe-source-han-sans-cn-fonts adobe-source-han-serif-cn-fonts \
+    ttf-arphic-ukai ttf-arphic-uming wqy-bitmapfont wqy-microhei 
+ln -s $HOME/Repositories/dotfiles/config/fontconfig $HOME/.config
+fc-cache -fv
+

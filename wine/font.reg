@@ -1,0 +1,55 @@
+REGEDIT4
+[HKEY_CURRENT_USER\Software\Wine\Fonts\Replacements]
+"SimSun"="Noto Serif CJK SC"
+"NSimSun"="Noto Serif CJK SC"
+"宋体"="Noto Serif CJK SC"
+"新宋体"="Noto Serif CJK SC"
+"SimKai"="AR PL UKai CN"
+"SimHei"="WenQuanYi Micro Hei"
+"黑体"="WenQuanYi Micro Hei"
+"KaiTi"="AR PL UKai CN"
+"DFKai-SB"="AR PL UKai CN"
+"楷体"="AR PL UKai CN"
+"FangSong"="AR PLBaosong2GBK Light"
+"仿宋"="AR PLBaosong2GBK Light"
+"MingLiU"="AR PL UMing CN"
+"PMingLiU"="AR PL UMing CN"
+"MS Sans Serif"="WenQuanYi Micro Hei"
+"Lucida Sans Unicode"="WenQuanYi Micro Hei"
+"Microsoft JhengHei"="Noto Sans CJK SC"
+"Microsoft YaHei"="Noto Sans CJK SC"
+
+
+;REGEDIT4
+;[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\FontLink\SystemLink]
+;"KaiTi"="ukai.ttc"
+;"SimKai"="ukai.ttc"
+;"DFKai-SB"="ukai.ttc"
+;"MingLiU"="uming.ttc"
+;"PMingLiU"="uming.ttc"
+;"Tahoma"="wqy-microhei.ttc"
+;"Tahoma Bold"="wqy-microhei.ttc"
+;"FangSong"="arplbaosong2gbklt.ttf"
+;"MS Sans Serif"="wqy-microhei.ttc"
+;"Lucida Sans Unicode"="wqy-microhei.ttc"
+;"SimSun"="NotoSerifCJK-Regular.ttc"
+;"NSimSun"="NotoSerifCJK-Regular.ttc"
+;"SimHei"="wqy-microhei.ttc"
+;"Microsoft JhengHei"="NotoSansCJK-Regular"
+;"Microsoft YaHei"="adobe-source-han-sans"
+
+
+; 解决 fonts look smeared 的问题
+REGEDIT4
+[HKEY_CURRENT_USER\Software\Wine\X11 Driver]
+"ClientSideAntiAliasWithCore"="N"
+"ClientSideAntiAliasWithRender"="N"
+"ClientSideWithRender"="N"
+
+;Enable font smoothing
+REGEDIT4
+[HKEY_CURRENT_USER\Control Panel\Desktop]
+"FontSmoothing"="2"
+"FontSmoothingType"=dword:00000002
+"FontSmoothingGamma"=dword:00000578
+"FontSmoothingOrientation"=dword:00000001

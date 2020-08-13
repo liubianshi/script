@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+# shadowsocks
+pacman -S shadowsocks-qt5
+
+# privoxy
+pacman -S privoxy
+cp $HOME/Repositories/dotfiles/privoxy/{config,gfwlist.action,proxy.action} \
+    /etc/privoxy
+systemctl start privoxy
+systemctl enable privoxy
+
+# proxychains-ng
+pacman -S proxychains-ng
+cp $HOME/Repositories/dotfiles/proxychains.conf \
+    /etc/proxychains.conf
+

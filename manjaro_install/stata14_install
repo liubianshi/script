@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+# 安装必备插件
+sudo pacman -S libpng12
+yay -S ncurses5-compat-libs
+
+# 安装 stata14 本体
+cd $NUTSTORE/APP/
+mkdir /tmp/stata14_install
+tar -xf stata14_install -C /tmp/stata14_install
+sudo mkdir /usr/local/stata14 && cd /usr/local/stata14 
+sudo /tmp/stata14_install/install
+
+# 导入 stata.lic
+sudo ./stinit
+#       Serial number:  10699393
+#                Code:  4gpp mkha 3yqe 3o9v g1m7 iu6j ou5j
+#       Authorization:  tsrk
+
+# 配置初始启动脚本
+cat << EOF >> /tmp/profile
+set more off, perm
+set matsize 10000, perm
+set mem 4096m, perm
+EOF
+sudo cp /tmp/profile ./profile.do
+
+# 解决 stata gui 的图标问题
+sudo cp -r "$NUTSTORE/APP/stata-png-fix" /usr/local
+sudo ln -sf /usr/local/stata-png-fix/stata-png-fixed.sh /usr/local/bin/xstata
+sudo ln -sf /usr/local/stata-png-fix/stata-png-fixed.sh /usr/local/bin/xstata-se
+sudo ln -sf /usr/local/stata-png-fix/stata-png-fixed.sh /usr/local/bin/xstata-mp
+sudo ln -sf /usr/local/stata-png-fix/stata-png-fixed.sh /usr/local/bin/xstata-sm
+
+# 配置 vim 的stata 环境，依赖 'jalvesaq/vimcmdline'
+sudo ln -sf /usr/local/stata14/stata-mp /usr/local/bin/stata-mp
+sudo ln -sf $HOME/useScript/vim_script/stata_cmdline.vim \
+    $HOME/.local/share/nvim/plugged/vimcmdline/ftplugin
+sudo ln -sf $HOME/useScript/vim_script/cmdlineoutput_stata-mp.vim \
+    $HOME/.local/share/nvim/plugged/vimcmdline/syntax
