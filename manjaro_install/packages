@@ -91,7 +91,13 @@ ln -s $HOME/useScript/pandoc $HOME/.config
 sudo pacman -S translate-shell
 ln -s $HOME/Repositories/dotfiles/config/translate-shell $HOME/.config
 
-# zotero
-sudo pacman -S zotero
+# ranger
+yay -S ranger
+sudo -H pip install ueberzug
+ln -s $HOME/Repositories/dotfiles/config/ranger $HOME/.config
 
-
+# tools
+sudo pacman -S pdftk zathura zathura-pdf-mupdf
+sudo pacman -S trash-cli
+yay -S glow docx2txt antiword odt2txt
+sudo pacman -S gpick

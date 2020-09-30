@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# install
+sudo pacman -S newsboat
+mkdir -p $HOME/Repositories/dotfiles/config/newsboat
+ln -s $HOME/Repositories/dotfiles/config/newsboat $HOME/.config
+cd ~/.config/newsboat
+touch config urls
+
+
