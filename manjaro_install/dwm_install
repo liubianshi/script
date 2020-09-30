@@ -71,6 +71,6 @@ ln -s $HOME/Repositories/script/statusbar/mailbox     $HOME/.local/bin/
 ln -s $HOME/Repositories/script/statusbar/clock       $HOME/.local/bin/
 ln -s $HOME/Repositories/script/statusbar/help-icon   $HOME/.local/bin/
 cd $HOME/Repositories
-[ -d ./dwmblocks ] || git clone git@github.com:liubianshi/dwmblocks.git .
+[ -d ./dwmblocks ] || git clone git@github.com:liubianshi/dwmblocks.git
 cd dwmblocks
 sudo make clean install && make clean
