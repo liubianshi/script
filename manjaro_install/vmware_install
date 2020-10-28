@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+yay -S vmware-workstataion
+
+# 如果包括，可能需要安装 linux-headers, 安装包名称为：linuxAB-headers, 例如
+# sudo pacman -S linux58-headers
+
+# 加载 vmmon 模块
+sudo modprobe -a vmw_vmci vmmon
+
+# 启动网络支持
+sudo systemctl enable --now vmware-networks.service
+
+# 启动 USB 支持
+sudo systemctl enable --now vmware-usbarbitrator.service
+
+# 如果需要虚拟机要支持网络共享，则需要执行下面命令来启动服务
+sudo systemctl enable --now vmware-hostd.service
+
+# 首次运行
+sudo vmplayer
+

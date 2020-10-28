@@ -101,3 +101,4 @@ sudo pacman -S pdftk zathura zathura-pdf-mupdf
 sudo pacman -S trash-cli
 yay -S glow docx2txt antiword odt2txt
 sudo pacman -S gpick
+yay -S surfraw

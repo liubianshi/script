@@ -1,0 +1,91 @@
+```{r setup, include = F}
+library("tidyverse")
+library("data.table")
+library("knitr")
+library("kableExtra")
+library("broom")
+library("showtext")
+
+library(forcats)
+library(patchwork)
+library(lubridate)
+source("_common.R")
+knitr::opts_chunk$set(echo = F, message = F, warning = F, error = F,
+                      results = "asis", dpi = 210, dev = "pdf",
+                      fig.showtext = TRUE)
+```
+
+(ref:basic-scales-example) Scales link data values to aesthetics. Here, the
+numbers 1 through 4 have been mapped onto a position scale, a shape scale, and
+a color scale. For each scale, each number corresponds to a unique position,
+shape, or color and vice versa.
+
+```{r basic-scales-example, fig.width = 5.5, fig.asp = 0.3, fig.cap = '(ref:basic-scales-example)'}
+df <- data.frame(x = c(1:4))
+
+scale_num <- ggplot(df, aes(x)) +
+    geom_point(size = 3, color = "#0072B2", y = 1) +
+    scale_y_continuous(
+        limits = c(0.8, 1.2), expand = c(0, 0),
+        breaks = 1, label = "position  "
+    ) +
+    scale_x_continuous(
+        limits = c(.7, 4.4), breaks = 1:5,
+        labels = c("1", "2", "3", "4", "5"), name = NULL, position = "top" #
+    ) +
+    theme_dviz_grid() +
+    theme(
+        axis.ticks.length = grid::unit(0, "pt"),
+        axis.text = element_text(size = 14),
+        axis.title.y = element_blank(),
+        axis.ticks.y = element_blank()
+    )
+
+scale_color <- ggplot(df, aes(x, color = factor(x), fill = factor(x))) +
+    geom_point(size = 5, shape = 22, y = 1) +
+    scale_y_continuous(
+        limits = c(0.8, 1.2), expand = c(0, 0),
+        breaks = 1, label = "color  "
+    ) +
+    scale_x_continuous(limits = c(.7, 4.4), breaks = NULL) +
+    scale_color_manual(
+        values = darken(c(
+            "#0082A6", "#4EBBB9",
+            "#9CDFC2", "#D8F0CD"
+        ), .1),
+        guide = "none"
+    ) +
+    scale_fill_manual(
+        values = c("#0082A6", "#4EBBB9", "#9CDFC2", "#D8F0CD"),
+        guide = "none"
+    ) +
+    theme_dviz_grid() +
+    theme(
+        axis.ticks.length = grid::unit(0, "pt"),
+        axis.text.x = element_blank(),
+        axis.text.y = element_text(size = 14),
+        axis.title = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid.major = element_blank()
+    )
+
+scale_shape <- ggplot(df, aes(x, shape = factor(x))) +
+    geom_point(size = 4, color = "grey30", y = 1, fill = "grey80") +
+    scale_y_continuous(
+        limits = c(0.8, 1.2), expand = c(0, 0), breaks = 1,
+        label = "shape  "
+    ) +
+    scale_x_continuous(limits = c(.7, 4.4), breaks = NULL) +
+    scale_shape_manual(values = 21:24, guide = "none") +
+    theme_dviz_grid() +
+    theme(
+        axis.ticks.length = grid::unit(0, "pt"),
+        axis.text.x = element_blank(),
+        axis.text.y = element_text(size = 14),
+        axis.title = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid.major = element_blank()
+    )
+
+scale_num + scale_shape + scale_color + plot_layout(ncol = 1)
+```
