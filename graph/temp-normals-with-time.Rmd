@@ -1,0 +1,58 @@
+```{r echo = FALSE, message = FALSE}
+# run setup script
+source("_common.R")
+library(data.table)
+library(forcats)
+library(patchwork)
+library(lubridate)
+knitr::opts_chunk$set(echo = T, message = F, warning = F, error = F,
+                      results = "asis", dpi = 210, dev = "pdf",
+                      fig.showtext = TRUE)
+```
+
+(ref:temp-normals-vs-time) Daily temperature normals for four selected
+locations in the U.S. Temperature is mapped to the *y* axis, day of the year
+to the *x* axis, and location to line color. Data source: NOAA.
+
+```{r temp-normals-vs-time, fig.cap = '(ref:temp-normals-vs-time)'}
+
+temps_long <- data.table(ncdc_normals) %>%
+    .[station_id %in% c("USW00014819", # Chicago, IL 60638
+                        "USC00042319", # Death Valley, CA 92328 hottest point in the US
+                        "USW00093107", # San Diego, CA 92145
+                        "USW00012918" # Houston, TX 77061
+                       ), ] %>%
+    .[, location := fct_recode(factor(station_id),
+                               "Chicago" = "USW00014819",
+                               "Death Valley" = "USC00042319",
+                               "San Diego" = "USW00093107",
+                               "Houston" = "USW00012918")] %>%
+    .[, location := factor(location, levels = c("Death Valley",
+                                                "Houston",
+                                                "San Diego",
+                                                "Chicago"))]
+
+ggplot(temps_long, aes(x = date, y = temperature, color = location)) +
+    geom_line(size = 1, linetype = "dashed") +
+    scale_x_date(
+        name = "month",
+        limits = c(ymd("0000-01-01"), ymd("0001-01-04")),
+        breaks = c(
+            ymd("0000-01-01"),
+            ymd("0000-04-01"),
+            ymd("0000-07-01"),
+            ymd("0000-10-01"),
+            ymd("0001-01-01")
+        ),
+        labels = c("Jan", "Apr", "Jul", "Oct", "Jan"),
+        expand = expansion(add = 1)
+    ) +
+    scale_y_continuous(
+        limits = c(19.9, 107),
+        breaks = seq(20, 100, by = 20),
+        name = "temperature (°F)"
+    ) +
+    scale_color_OkabeIto(order = c(1:3, 7), name = NULL) +
+    theme_dviz_grid() +
+    theme(legend.title.align = 0.5)
+```
