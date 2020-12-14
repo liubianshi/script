@@ -1,9 +1,9 @@
 REGEDIT4
 [HKEY_CURRENT_USER\Software\Wine\Fonts\Replacements]
-"SimSun"="Noto Serif CJK SC"
-"NSimSun"="Noto Serif CJK SC"
-"宋体"="Noto Serif CJK SC"
-"新宋体"="Noto Serif CJK SC"
+"SimSun"="TsangerJinKai01-9128 W03"
+"NSimSun"="TsangerJinKai01-9128 W03"
+"宋体"="TsangerJinKai01-9128 W03"
+"新宋体"="TsangerJinKai01-9128 W03"
 "SimKai"="AR PL UKai CN"
 "SimHei"="WenQuanYi Micro Hei"
 "黑体"="WenQuanYi Micro Hei"
