@@ -16,7 +16,7 @@ yay -S zef
 zef install Readline
 
 # R
-pacman -S R
+sudo pacman -S r
 ln -s $HOME/.config/diySync/.lib/R          $HOME
 ln -s $HOME/Repositories/dotfiles/.Rprofile $HOME
 ln -s $HOME/Repositories/dotfiles/.Renviron $HOME

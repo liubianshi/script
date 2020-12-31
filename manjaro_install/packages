@@ -28,12 +28,13 @@ ln -s $HOME/Repositories/dotfiles/.tmux.conf.local $HOME/.tmux.conf.local
 ln -s $HOME/.tmux/.tmux.conf $HOME/.tmux.conf
 
 # 邮件系统 mutt
-yay -S neomutt isync mstmp abook pass pam-gpupg
+yay -S neomutt isync msmtp abook pass pam-gnupg
 cd $HOME/Repositories/
 git clone https://github.com/LukeSmithxyz/mutt-wizard
-cd mutt-wizrd
+cd mutt-wizard
 sudo make install
-ln -s $HOME/Repositories/dotfiles/.mbsync      $HOME
+make clean
+
 ln -s $HOME/Repositories/dotfiles/.mbsyncrc    $HOME
 ln -s $HOME/Repositories/dotfiles/config/msmtp $HOME/.config
 ln -s $HOME/Repositories/dotfiles/config/mutt  $HOME/.config
