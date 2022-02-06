@@ -1,7 +1,7 @@
 #!/bin/sh
 
 clock=$(date '+%I')
-
+d=""
 case "$clock" in
 	"00") icon="🕛" ;;
 	"01") icon="🕐" ;;
@@ -26,4 +26,6 @@ case $BLOCK_BUTTON in
 	6) "$TERMINAL" -e "$EDITOR" "$0" ;;
 esac
 
-date "+🗓%m/%d<%w> $icon%H:%M"
+#date "+<%a> %m/%d %H:%M "
+source ~/.local/bin/dwm-statusbar_theme
+display " $(date '+<%a> %m/%d %H:%M') | "
