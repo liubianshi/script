@@ -16,5 +16,12 @@ esac
 unread="$(find "${XDG_DATA_HOME:-$HOME/.local/share}"/mail/*/[Ii][Nn][Bb][Oo][Xx]/new/* -type f | wc -l 2>/dev/null)"
 
 pidof mbsync >/dev/null 2>&1 && icon="🔃"
-
-[ "$unread" = "0" ] && [ "$icon" = "" ] || echo "📬$unread$icon"
+info="🅜 $unread"
+[ "$unread" = "0" ] && [ "$icon" = "" ] || {
+    if [ -f "$HOME/.cache/wal/colors-wal-dwmblocks.sh" ]; then
+        source "$HOME/.cache/wal/colors-wal-dwmblocks.sh"
+        display "$info"
+    else
+        echo "$info"
+    fi
+}

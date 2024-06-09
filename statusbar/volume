@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 case $BLOCK_BUTTON in
 	1) setsid -f "$TERMINAL" -e alsamixer & ;;
@@ -12,17 +13,21 @@ case $BLOCK_BUTTON in
 esac
 
 volstat="$(LC_ALL=C pactl list sinks | sed -n '/RUNNING/,/Volume/p')"
+vol="$(pamixer --get-volume-human)"
+[ "$vol" = "muted" ] && printf "🔇\\n" && exit
+# vol=${vol%\%}
+# if [ "$vol" -gt "70" ]; then
+# 	icon="🔊"
+# elif [ "$vol" -lt "30" ]; then
+# 	icon="🔈"
+# else
+# 	icon="🔉"
+# fi
 
-echo "$volstat" | grep "Mute: yes" >/dev/null && printf "🔇\\n" && exit
-
-vol=$(echo "$volstat" | grep -o "[0-9]\+%" | sed "s/[^0-9]*//g;1q")
-
-if [ "$vol" -gt "70" ]; then
-	icon="🔊"
-elif [ "$vol" -lt "30" ]; then
-	icon="🔈"
+info="🅥 $vol"
+if [ -f "$HOME/.cache/wal/colors-wal-dwmblocks.sh" ]; then
+    source "$HOME/.cache/wal/colors-wal-dwmblocks.sh"
+    display "$info"
 else
-	icon="🔉"
+    echo "$info"
 fi
-
-printf "%s%s\\n" "$icon" "$vol"

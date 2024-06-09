@@ -28,4 +28,10 @@ esac
 
 #date "+<%a> %m/%d %H:%M "
 source ~/.local/bin/dwm-statusbar_theme
-display " $(date '+<%a> %m/%d %H:%M') | "
+info="$(date '+<%a> %m/%d %H:%M |')"
+if [ -f "$HOME/.cache/wal/colors-wal-dwmblocks.sh" ]; then
+    source "$HOME/.cache/wal/colors-wal-dwmblocks.sh"
+    display "$info"
+else
+    echo "$info"
+fi

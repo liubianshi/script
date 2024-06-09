@@ -9,9 +9,12 @@ case $BLOCK_BUTTON in
 	6) "$TERMINAL" -e "$EDITOR" "$0" ;;
 esac
 
+info="$(free --mebi | sed -n '2{p;q}' | awk '{printf ("%2.1f/%2.1fG", ( $3 / 1024), ($2 / 1024))}')"
 
-source ~/.local/bin/dwm-statusbar_theme
-display "$(free --mebi | sed -n '2{p;q}' | awk '{printf (" %2.1f/%2.1fG", ( $3 / 1024), ($2 / 1024))}')"
-
-
+if [ -f "$HOME/.cache/wal/colors-wal-dwmblocks.sh" ]; then
+    source "$HOME/.cache/wal/colors-wal-dwmblocks.sh"
+    display "$info"
+else
+    echo "$info"
+fi
 
